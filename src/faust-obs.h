@@ -50,13 +50,13 @@ public:
 			return;
 		}
 
-		for (int i = 0; i < prop_info.size(); i++) {
+		for (size_t i = 0; i < prop_info.size(); i++) {
 			auto &p{prop_info[i]};
 			p.name = fFullPaths[i].data();
 			p.suffix = fUnit[p.zone].data();
 		}
         }
-        
+
         void addButton(const char* label, FAUSTFLOAT* zone) override
         {
         }
@@ -90,7 +90,7 @@ public:
         void addVerticalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT fmin, FAUSTFLOAT fmax) override
         {
         }
-    
+
         void addSoundfile(const char* label, const char* filename, Soundfile** sf_zone) override {}
 
         void declare(FAUSTFLOAT* zone, const char* key, const char* val) override

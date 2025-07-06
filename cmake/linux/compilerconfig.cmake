@@ -34,7 +34,6 @@ set(
   -Wparentheses
   -Wuninitialized
   -Wunreachable-code
-  -Wunused-parameter
   -Wunused-value
   -Wunused-variable
   -Wvla
