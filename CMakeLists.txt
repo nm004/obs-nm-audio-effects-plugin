@@ -34,6 +34,45 @@ if(ENABLE_QT)
   )
 endif()
 
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-main.c)
+if (CMAKE_HOST_WIN32)
+	set(DEFAULT_FAUST_DIR "C:/Program Files/Faust")
+else()
+	set(DEFAULT_FAUST_DIR "/usr")
+endif()
+set(FAUST_DIR ${DEFAULT_FAUST_DIR} CACHE PATH "Path to Faust installation directory")
+
+add_library(faust INTERFACE)
+target_include_directories(faust INTERFACE "${FAUST_DIR}/include")
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE faust)
+
+list(APPEND faustInputs
+	src/faust/basicfilter.dsp
+	src/faust/echo.dsp
+	src/faust/loudspeaker.dsp
+	src/faust/radio.dsp
+	src/faust/zitarev1.dsp)
+list(APPEND faustOutputs ${faustInputs})
+list(TRANSFORM faustOutputs REPLACE "[.]dsp$" ".h")
+add_custom_command(
+	OUTPUT
+	${faustOutputs}
+	COMMAND ${FAUST_DIR}/bin/faust
+	ARGS -nvi -inpl -ns nm -cn BasicFilter -o src/faust/basicfilter.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/faust/basicfilter.dsp
+	COMMAND ${FAUST_DIR}/bin/faust
+	ARGS -nvi -inpl -ns nm -cn Echo -o src/faust/echo.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/faust/echo.dsp
+	COMMAND ${FAUST_DIR}/bin/faust
+	ARGS -nvi -inpl -ns nm -cn LoudSpeaker -o src/faust/loudspeaker.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/faust/loudspeaker.dsp
+	COMMAND ${FAUST_DIR}/bin/faust
+	ARGS -nvi -inpl -ns nm -cn Radio -o src/faust/radio.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/faust/radio.dsp
+	COMMAND ${FAUST_DIR}/bin/faust
+	ARGS -nvi -inpl -ns nm -cn ZitaRev1 -o src/faust/zitarev1.h
+		${CMAKE_CURRENT_SOURCE_DIR}/src/faust/zitarev1.dsp
+	DEPENDS ${faustInputs})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src/faust)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${faustOutputs} src/plugin-main.cc)
 
 set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})

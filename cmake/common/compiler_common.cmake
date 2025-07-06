@@ -2,10 +2,10 @@
 
 include_guard(GLOBAL)
 
-# Set C and C++ language standards to C17 and C++17
+# Set C and C++ language standards to C17 and C++23
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # Set symbols to be hidden by default for C and C++

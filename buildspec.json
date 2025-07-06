@@ -33,13 +33,13 @@
     },
     "platformConfig": {
         "macos": {
-            "bundleId": "com.example.plugintemplate-for-obs"
+            "bundleId": "2923ff38-385f-45ce-aec6-c716290a71b5"
         }
     },
-    "name": "plugintemplate-for-obs",
-    "displayName": "Plugin Template for OBS",
-    "version": "1.0.0",
-    "author": "Your Name Here",
+    "name": "nm-audio-effects",
+    "displayName": "Audio effect set for OBS",
+    "version": "0.0.1",
+    "author": "Nozomi Miyamori",
     "website": "https://example.com",
     "email": "me@example.com"
 }
